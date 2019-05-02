@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">News</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_news">No News Now please try again later</string>
+    <string name="no_internet">PLease connect to an internet Connection</string>
+    <string name="unkown_author">Unkown Author</string>
+</resources>
