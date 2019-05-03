@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class worldTechFragment extends Fragment implements LoaderManager.LoaderC
 
 
     View rootview;
+    SwipeRefreshLayout swipe;
 
     public worldTechFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class worldTechFragment extends Fragment implements LoaderManager.LoaderC
         rootview = inflater.inflate(R.layout.list, container, false);
 
         final LoaderManager loaderManager = getLoaderManager();
+        swipe=rootview.findViewById(R.id.swipe);
 
         loadingIndicator = rootview.findViewById(R.id.loading_indicator);
 
@@ -98,6 +101,20 @@ public class worldTechFragment extends Fragment implements LoaderManager.LoaderC
             newsListView.setEmptyView(mEmptyStateTextView);
             mEmptyStateTextView.setText(R.string.no_internet);
         }
+        swipe=rootview.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                loaderManager.initLoader(LOADER_ID, null, worldTechFragment.this);
+                mEmptyStateTextView = (TextView) rootview.findViewById(R.id.empty_view);
+                newsListView.setEmptyView(mEmptyStateTextView);
+                swipe.setRefreshing(false);
+
+
+
+            }
+        });
 
         return rootview;
 

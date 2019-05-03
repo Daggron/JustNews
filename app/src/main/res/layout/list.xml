@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe">
 
     <GridView
         android:id="@+id/recyclerView"
@@ -12,6 +16,7 @@
         android:overScrollMode="never"
         android:horizontalSpacing="50dp"
         android:verticalSpacing="50dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 

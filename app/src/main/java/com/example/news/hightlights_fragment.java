@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class hightlights_fragment extends Fragment implements LoaderManager.LoaderCallbacks<List<news>> {
+
+    SwipeRefreshLayout swipe;
 
     View rootview;
 
@@ -62,15 +66,8 @@ public class hightlights_fragment extends Fragment implements LoaderManager.Load
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 news e = adapter.getItem(position);
-               // Intent i = new Intent(Intent.ACTION_VIEW);
-                //i.setData(Uri.parse(e.getUrl()));
-                //startActivity(i);
-                Intent i = new Intent(getContext(),details.class);
-                i.putExtra("Key_Image",e.getImage());
-                i.putExtra("Key_Title",e.getTitle());
-                i.putExtra("Key_Author",e.getAuthor());
-                i.putExtra("Key_Date",e.getDate());
-                i.putExtra("Key_Url",e.getUrl());
+               Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(e.getUrl()));
                 startActivity(i);
 
             }
@@ -102,6 +99,21 @@ public class hightlights_fragment extends Fragment implements LoaderManager.Load
             newsListView.setEmptyView(mEmptyStateTextView);
             mEmptyStateTextView.setText(R.string.no_internet);
         }
+
+        swipe=rootview.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                    loaderManager.initLoader(LOADER_ID, null, hightlights_fragment.this);
+                    mEmptyStateTextView = (TextView) rootview.findViewById(R.id.empty_view);
+                    newsListView.setEmptyView(mEmptyStateTextView);
+                    swipe.setRefreshing(false);
+
+
+
+            }
+        });
 
 
         return rootview;

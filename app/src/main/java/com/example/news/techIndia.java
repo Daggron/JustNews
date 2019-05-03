@@ -36,6 +36,7 @@ public class techIndia extends Fragment implements LoaderManager.LoaderCallbacks
    }
 
     View rootview;
+   SwipeRefreshLayout swipe;
 
     newsAdapter adapter;
 
@@ -55,6 +56,7 @@ public class techIndia extends Fragment implements LoaderManager.LoaderCallbacks
                              Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.list, container, false);
+        swipe=rootview.findViewById(R.id.swipe);
 
         final LoaderManager loaderManager = getLoaderManager();
 
@@ -104,6 +106,20 @@ public class techIndia extends Fragment implements LoaderManager.LoaderCallbacks
             mEmptyStateTextView.setText(R.string.no_internet);
         }
 
+        swipe=rootview.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                loaderManager.initLoader(LOADER_ID, null, techIndia.this);
+                mEmptyStateTextView = (TextView) rootview.findViewById(R.id.empty_view);
+                newsListView.setEmptyView(mEmptyStateTextView);
+                swipe.setRefreshing(false);
+
+
+
+            }
+        });
 
         return rootview;
 

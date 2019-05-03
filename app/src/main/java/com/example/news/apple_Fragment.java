@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class apple_Fragment extends Fragment implements LoaderManager.LoaderCall
 
     newsAdapter adapter;
 
+    SwipeRefreshLayout swipe;
     public static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String API = uriBuilder();//"https://newsapi.org/v2/everything?q=apple&from=2019-04-30&to=2019-04-30&sortBy=popularity&apiKey=fabb056ff8594a2c9cd1ea680aa83aa7";
@@ -101,6 +103,20 @@ public class apple_Fragment extends Fragment implements LoaderManager.LoaderCall
             mEmptyStateTextView.setText(R.string.no_internet);
         }
 
+        swipe=rootview.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                loaderManager.initLoader(LOADER_ID, null, apple_Fragment.this);
+                mEmptyStateTextView = (TextView) rootview.findViewById(R.id.empty_view);
+                newsListView.setEmptyView(mEmptyStateTextView);
+                swipe.setRefreshing(false);
+
+
+
+            }
+        });
 
         return rootview;
 
